@@ -81,34 +81,34 @@ export default function Home() {
     <div className="flex flex-col flex-1 items-center justify-center bg-[#050810] font-sans min-h-screen relative">
       <StarField />
 
-<main className="relative z-10 flex flex-1 w-full max-w-3xl flex-col justify-between py-24 px-16">
+      <main className="relative z-10 flex flex-1 w-full max-w-3xl flex-col justify-between py-12 px-8 sm:py-24 sm:px-16">
         <span className="text-sm text-zinc-500">outletvault.co</span>
 
-        <div className="flex items-start gap-6">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-6">
           <h1
-            className="text-[6.5rem] font-bold leading-none tracking-tight bg-gradient-to-br from-white via-sky-200 to-sky-500 bg-clip-text text-transparent select-none"
+            className="text-[4.5rem] sm:text-[6.5rem] font-bold leading-none tracking-tight bg-gradient-to-br from-white via-sky-200 to-sky-500 bg-clip-text text-transparent select-none"
             style={{ filter: "drop-shadow(0 0 60px rgba(56,189,248,0.25))" }}
           >
             Outlet
             <br />
             Vault
             <br />
-            <span style={{ WebkitTextFillColor: "rgb(125 211 252)", fontSize: "2rem", fontWeight: 300, letterSpacing: "0.15em", whiteSpace: "nowrap" }}>
+            <span style={{ WebkitTextFillColor: "rgb(125 211 252)", fontSize: "1.5rem", fontWeight: 300, letterSpacing: "0.15em", whiteSpace: "nowrap" }}>
               coming soon
             </span>
           </h1>
 
-          <div className="pt-4">
+          <div className="sm:pt-4">
             <Link
               href="/designs-pricing"
-              className="w-44 h-44 flex items-center justify-center rounded-2xl bg-gradient-to-br from-sky-600 to-blue-900 text-white text-base font-semibold text-center px-4 hover:opacity-90 transition-all shadow-lg shadow-blue-950/60"
+              className="w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center rounded-2xl bg-gradient-to-br from-sky-600 to-blue-900 text-white text-base font-semibold text-center px-4 hover:opacity-90 transition-all shadow-lg shadow-blue-950/60"
             >
               Designs
             </Link>
           </div>
         </div>
 
-        <div className="relative h-12 w-full">
+        <div className="relative h-10 w-full sm:h-12">
           <button
             onClick={() => setOpen(true)}
             className={`absolute inset-0 flex items-center justify-center rounded-full border border-white text-sm font-medium text-white hover:bg-white hover:text-[#050810] transition-all ${
