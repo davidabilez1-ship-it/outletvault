@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "../../Desktop/rentalbotsllc"
+		},
+		{
+			"path": "../../Desktop/orbaFILE"
+		},
+		{
+			"name": "outletvault",
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "rentalbotsllc"
+	}
+}
