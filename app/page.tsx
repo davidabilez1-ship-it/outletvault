@@ -76,7 +76,7 @@ function StarField() {
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-[#050810] font-sans min-h-screen relative">
+    <div className="flex flex-col flex-1 items-center justify-center bg-[#050810] font-sans min-h-screen relative overflow-hidden touch-none">
       <StarField />
 
       <main className="relative z-10 flex flex-1 w-full max-w-3xl flex-col justify-between py-12 px-8 sm:py-24 sm:px-16">
@@ -101,7 +101,7 @@ export default function Home() {
               href="/designs-pricing"
               className="w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center rounded-2xl bg-gradient-to-br from-sky-600 to-blue-900 text-white text-base font-semibold text-center px-4 hover:opacity-90 transition-all shadow-lg shadow-blue-950/60"
             >
-              Designs
+              Device #1
             </Link>
           </div>
         </div>
