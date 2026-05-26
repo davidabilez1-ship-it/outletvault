@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 
 function StarField() {
@@ -75,8 +75,6 @@ function StarField() {
 }
 
 export default function Home() {
-  const [open, setOpen] = useState(false);
-
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-[#050810] font-sans min-h-screen relative">
       <StarField />
@@ -108,30 +106,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="relative h-10 w-full sm:h-12">
-          <button
-            onClick={() => setOpen(true)}
-            className={`absolute inset-0 flex items-center justify-center rounded-full border border-white text-sm font-medium text-white hover:bg-white hover:text-[#050810] transition-all ${
-              open ? "pointer-events-none opacity-0" : "z-10"
-            }`}
-          >
-            Contact
-          </button>
-
-          <div
-            className={`absolute inset-0 flex items-center justify-center rounded-full bg-white/5 border border-white/20 text-sm text-white transition-all duration-300 ${
-              open ? "z-10 opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
-            }`}
-          >
-            David Abilez
-            <button
-              onClick={() => setOpen(false)}
-              className="absolute right-4 text-zinc-400 hover:text-white transition-colors leading-none"
-            >
-              ✕
-            </button>
-          </div>
-        </div>
+        <div />
       </main>
     </div>
   );
