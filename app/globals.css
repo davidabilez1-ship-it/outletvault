@@ -17,6 +17,11 @@ body {
   overscroll-behavior: none;
 }
 
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(72px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(72px) rotate(-360deg); }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 function StarField() {
@@ -74,13 +74,157 @@ function StarField() {
   return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0" />;
 }
 
+function SpinningQ() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const W = canvas.width;
+    const H = canvas.height;
+    const cx = W / 2;
+    const cy = H / 2;
+    const radius = W * 0.28;
+    let angle = 0;
+    let animId: number;
+
+    const draw = () => {
+      ctx.clearRect(0, 0, W, H);
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(56,189,248,0.15)";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      const qx = cx + Math.cos(angle) * radius;
+      const qy = cy + Math.sin(angle) * radius;
+
+      ctx.save();
+      ctx.font = `bold ${W * 0.12}px sans-serif`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.shadowColor = "rgba(56,189,248,0.9)";
+      ctx.shadowBlur = 24;
+      ctx.fillStyle = "#7dd3fc";
+      ctx.fillText("?", qx, qy);
+      ctx.restore();
+
+      angle += 0.022;
+      animId = requestAnimationFrame(draw);
+    };
+
+    draw();
+    return () => cancelAnimationFrame(animId);
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      width={340}
+      height={340}
+      className="rounded-xl"
+      style={{ background: "#050810" }}
+    />
+  );
+}
+
 export default function Home() {
+  const [showBubble, setShowBubble] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
+  const [showDevice, setShowDevice] = useState(false);
+
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-[#050810] font-sans min-h-screen relative overflow-hidden touch-none">
       <StarField />
 
       <main className="relative z-10 flex flex-1 w-full max-w-3xl flex-col justify-between py-12 px-8 sm:py-24 sm:px-16">
-        <span className="text-sm text-zinc-500">outletvault.co</span>
+        <div className="flex items-center justify-between w-full">
+          <span className="text-sm text-zinc-500">outletvault.co</span>
+          <div className="relative flex items-center gap-3">
+            {showBubble && (
+              <div className="absolute top-full mt-2 right-0 flex items-center gap-2 bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-2.5 shadow-xl shadow-black/40 whitespace-nowrap z-50">
+                <span className="text-sm text-zinc-300">support@outletvault.co</span>
+                <button
+                  onClick={() => setShowBubble(false)}
+                  className="ml-1 text-zinc-500 hover:text-white transition-colors"
+                  aria-label="Close"
+                >
+                  ✕
+                </button>
+              </div>
+            )}
+            <button
+              onClick={() => setShowBubble((v) => !v)}
+              className="text-sm text-zinc-400 hover:text-white transition-colors px-3 py-1.5 rounded-lg border border-zinc-700 hover:border-zinc-500"
+            >
+              Contact
+            </button>
+            <button
+              onClick={() => setShowAbout(true)}
+              className="text-sm text-zinc-400 hover:text-white transition-colors px-3 py-1.5 rounded-lg border border-zinc-700 hover:border-zinc-500"
+            >
+              About
+            </button>
+          </div>
+        </div>
+
+        {showAbout && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div className="absolute inset-0 backdrop-blur-md bg-black/50" onClick={() => setShowAbout(false)} />
+            <div
+              className="relative w-[90vw] max-w-2xl bg-gradient-to-br from-[#0d1b3e] via-[#0a1628] to-[#050810] border border-sky-500/30 rounded-2xl shadow-2xl flex flex-col items-center justify-center gap-6 px-10 py-14"
+              style={{ boxShadow: "0 0 60px rgba(56,189,248,0.15), 0 25px 60px rgba(0,0,0,0.6)" }}
+            >
+              <button
+                onClick={() => setShowAbout(false)}
+                className="absolute top-5 right-5 text-zinc-500 hover:text-white transition-colors text-lg leading-none"
+                aria-label="Close"
+              >
+                ✕
+              </button>
+              <h2
+                className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-sky-500 via-sky-300 to-sky-500 bg-clip-text text-transparent text-center"
+                style={{ filter: "drop-shadow(0 0 12px rgba(56,189,248,0.2))" }}
+              >
+                OutletVault
+              </h2>
+              <p className="text-sky-100/80 text-base sm:text-lg leading-relaxed text-center max-w-lg">
+                This is an idea that I have wanted to create for many years, and I am excited to finally be at the point to push this product forward! I thought of this because I realized there is not a good way to charge laptops — at least all laptops. Why use a USB-C charger when an outlet already works with everything?
+              </p>
+            </div>
+          </div>
+        )}
+
+        {showDevice && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div className="absolute inset-0 backdrop-blur-md bg-black/50" onClick={() => setShowDevice(false)} />
+            <div
+              className="relative w-[90vw] max-w-2xl bg-gradient-to-br from-[#0d1b3e] via-[#0a1628] to-[#050810] border border-sky-500/30 rounded-2xl shadow-2xl flex flex-col items-center justify-center gap-8 px-10 py-16"
+              style={{ boxShadow: "0 0 60px rgba(56,189,248,0.15), 0 25px 60px rgba(0,0,0,0.6)" }}
+            >
+              <button
+                onClick={() => setShowDevice(false)}
+                className="absolute top-5 right-5 text-zinc-500 hover:text-white transition-colors text-lg leading-none"
+                aria-label="Close"
+              >
+                ✕
+              </button>
+
+              <SpinningQ />
+
+              <p
+                className="text-xl sm:text-2xl font-semibold tracking-widest uppercase bg-gradient-to-r from-sky-400 via-white to-sky-400 bg-clip-text text-transparent"
+                style={{ filter: "drop-shadow(0 0 10px rgba(56,189,248,0.3))" }}
+              >
+                Coming Soon
+              </p>
+            </div>
+          </div>
+        )}
 
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-6">
           <h1
@@ -96,13 +240,19 @@ export default function Home() {
             </span>
           </h1>
 
-          <div className="sm:pt-4">
+          <div className="sm:pt-4 flex flex-col gap-3">
             <Link
               href="/designs-pricing"
-              className="w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center rounded-2xl bg-gradient-to-br from-sky-600 to-blue-900 text-white text-base font-semibold text-center px-4 hover:opacity-90 transition-all shadow-lg shadow-blue-950/60"
+              className="w-36 h-[4.25rem] sm:w-44 sm:h-[5.25rem] flex items-center justify-center rounded-2xl bg-gradient-to-br from-sky-600 to-blue-900 text-white text-base font-semibold text-center px-4 hover:opacity-90 transition-all shadow-lg shadow-blue-950/60"
             >
               Device #1
             </Link>
+            <button
+              onClick={() => setShowDevice(true)}
+              className="w-36 h-[4.25rem] sm:w-44 sm:h-[5.25rem] flex items-center justify-center rounded-2xl bg-gradient-to-br from-sky-600 to-blue-900 text-white text-base font-semibold text-center px-4 hover:opacity-90 transition-all shadow-lg shadow-blue-950/60"
+            >
+              Device #2
+            </button>
           </div>
         </div>
 
