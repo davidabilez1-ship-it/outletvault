@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import VideoPlayer from "./VideoPlayer";
+import VideoLayout from "./VideoLayout";
 
 const colorVariants = [
   { src: "/IMG_5220.jpg", label: "Midnight", color: "#1a1a1a" },
@@ -36,11 +36,7 @@ export default function DesignsPricing() {
         </div>
 
         {/* Video hero */}
-        <div className="w-full max-w-4xl px-4 sm:px-8">
-          <div className="relative w-full rounded-2xl overflow-hidden bg-zinc-900 shadow-2xl shadow-sky-950/40 border border-white/5">
-            <VideoPlayer />
-          </div>
-        </div>
+        <VideoLayout />
 
         {/* Color variants */}
         <div className="w-full max-w-4xl px-4 sm:px-8 mt-16 mb-20">
