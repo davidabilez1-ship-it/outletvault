@@ -52,6 +52,9 @@ export default function Device2() {
                 filter: "blur(0.4px)",
               }}
             />
+            <p style={{ marginTop: "1rem", color: "#94a3b8", fontSize: "1rem", letterSpacing: "0.04em", textAlign: "center" }}>
+              Portable cooler, with speakers and charging ports
+            </p>
           </div>
         </div>
 
