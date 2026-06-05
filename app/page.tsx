@@ -74,68 +74,11 @@ function StarField() {
   return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0" />;
 }
 
-function SpinningQ() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const W = canvas.width;
-    const H = canvas.height;
-    const cx = W / 2;
-    const cy = H / 2;
-    const radius = W * 0.28;
-    let angle = 0;
-    let animId: number;
-
-    const draw = () => {
-      ctx.clearRect(0, 0, W, H);
-
-      ctx.beginPath();
-      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-      ctx.strokeStyle = "rgba(56,189,248,0.15)";
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-
-      const qx = cx + Math.cos(angle) * radius;
-      const qy = cy + Math.sin(angle) * radius;
-
-      ctx.save();
-      ctx.font = `bold ${W * 0.12}px sans-serif`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.shadowColor = "rgba(56,189,248,0.9)";
-      ctx.shadowBlur = 24;
-      ctx.fillStyle = "#7dd3fc";
-      ctx.fillText("?", qx, qy);
-      ctx.restore();
-
-      angle += 0.022;
-      animId = requestAnimationFrame(draw);
-    };
-
-    draw();
-    return () => cancelAnimationFrame(animId);
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      width={340}
-      height={340}
-      className="rounded-xl"
-      style={{ background: "#050810" }}
-    />
-  );
-}
 
 export default function Home() {
   const [showBubble, setShowBubble] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
-  const [showDevice, setShowDevice] = useState(false);
 
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-[#050810] font-sans min-h-screen relative overflow-hidden touch-none">
@@ -199,33 +142,6 @@ export default function Home() {
           </div>
         )}
 
-        {showDevice && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="absolute inset-0 backdrop-blur-md bg-black/50" onClick={() => setShowDevice(false)} />
-            <div
-              className="relative w-[90vw] max-w-2xl bg-gradient-to-br from-[#0d1b3e] via-[#0a1628] to-[#050810] border border-sky-500/30 rounded-2xl shadow-2xl flex flex-col items-center justify-center gap-8 px-10 py-16"
-              style={{ boxShadow: "0 0 60px rgba(56,189,248,0.15), 0 25px 60px rgba(0,0,0,0.6)" }}
-            >
-              <button
-                onClick={() => setShowDevice(false)}
-                className="absolute top-5 right-5 text-zinc-500 hover:text-white transition-colors text-lg leading-none"
-                aria-label="Close"
-              >
-                ✕
-              </button>
-
-              <SpinningQ />
-
-              <p
-                className="text-xl sm:text-2xl font-semibold tracking-widest uppercase bg-gradient-to-r from-sky-400 via-white to-sky-400 bg-clip-text text-transparent"
-                style={{ filter: "drop-shadow(0 0 10px rgba(56,189,248,0.3))" }}
-              >
-                Coming Soon
-              </p>
-            </div>
-          </div>
-        )}
-
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-6">
           <h1
             className="text-[4.5rem] sm:text-[6.5rem] font-bold leading-none tracking-tight bg-gradient-to-br from-white via-sky-200 to-sky-500 bg-clip-text text-transparent select-none"
@@ -247,12 +163,12 @@ export default function Home() {
             >
               Device #1
             </Link>
-            <button
-              onClick={() => setShowDevice(true)}
+            <Link
+              href="/device2"
               className="w-36 h-[4.25rem] sm:w-44 sm:h-[5.25rem] flex items-center justify-center rounded-2xl bg-gradient-to-br from-sky-600 to-blue-900 text-white text-base font-semibold text-center px-4 hover:opacity-90 transition-all shadow-lg shadow-blue-950/60"
             >
               Device #2
-            </button>
+            </Link>
           </div>
         </div>
 
