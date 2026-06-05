@@ -65,18 +65,17 @@ export default function Device2() {
               key={v.label}
               className="group relative rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-black/40"
             >
-              <div className="relative w-full" style={{ height: 340 }}>
-                <Image
-                  src={v.src}
-                  alt={`OutletVault Device 2 in ${v.label}`}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 800px"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent" />
-                <div className="absolute bottom-5 left-6">
-                  <span className="text-lg font-semibold text-white tracking-wide">{v.label}</span>
-                </div>
+              <Image
+                src={v.src}
+                alt={`OutletVault Device 2 in ${v.label}`}
+                width={0}
+                height={0}
+                sizes="(max-width: 768px) 100vw, 800px"
+                style={{ width: "100%", height: "auto", display: "block" }}
+              />
+              <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent" />
+              <div className="absolute bottom-5 left-6">
+                <span className="text-lg font-semibold text-white tracking-wide">{v.label}</span>
               </div>
             </div>
           ))}
