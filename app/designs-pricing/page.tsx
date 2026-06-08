@@ -3,7 +3,79 @@
 import Link from "next/link";
 import Image from "next/image";
 import VideoLayout from "./VideoLayout";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+
+function StarField() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    const stars = Array.from({ length: 300 }, () => ({
+      x: Math.random() * 2 - 1,
+      y: Math.random() * 2 - 1,
+      z: Math.random(),
+    }));
+
+    let animId: number;
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const scale = Math.max(canvas.width, canvas.height) * 0.6;
+
+      for (const star of stars) {
+        star.z -= 0.0002;
+        if (star.z <= 0) {
+          star.x = Math.random() * 2 - 1;
+          star.y = Math.random() * 2 - 1;
+          star.z = 1;
+        }
+
+        const sx = (star.x / star.z) * scale + cx;
+        const sy = (star.y / star.z) * scale + cy;
+
+        if (sx < 0 || sx > canvas.width || sy < 0 || sy > canvas.height) {
+          star.x = Math.random() * 2 - 1;
+          star.y = Math.random() * 2 - 1;
+          star.z = 1;
+          continue;
+        }
+
+        const proximity = 1 - star.z;
+        const size = Math.max(0.3, proximity * 2.2);
+        const opacity = proximity * 0.95;
+
+        ctx.beginPath();
+        ctx.arc(sx, sy, size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+        ctx.fill();
+      }
+
+      animId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(animId);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0" />;
+}
 
 const colorVariants = [
   { src: "/IMG_5220.jpg", label: "Midnight", color: "#1a1a1a" },
@@ -130,9 +202,10 @@ export default function DesignsPricing() {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#080c14] font-sans text-white">
+    <div className="flex flex-col min-h-screen bg-black font-sans text-white relative overflow-hidden">
+      <StarField />
       {/* Nav */}
-      <div className="flex justify-between items-center px-8 pt-8 pb-4">
+      <div className="relative z-10 flex justify-between items-center px-8 pt-8 pb-4">
         <span className="text-sm text-zinc-500 tracking-widest uppercase">OUTLETVAULT.CO</span>
         <Link
           href="/"
@@ -142,7 +215,7 @@ export default function DesignsPricing() {
         </Link>
       </div>
 
-      <main className="flex flex-col items-center w-full">
+      <main className="relative z-10 flex flex-col items-center w-full">
         {/* Hero text */}
         <div className="text-center px-8 pt-12 pb-8">
           <p className="text-xs tracking-[0.3em] text-sky-400 uppercase mb-3">Introducing</p>
